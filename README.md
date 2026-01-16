@@ -1,14 +1,13 @@
 # Vehicle Dispatch Agent - AI-Powered Ride Booking System
 
-A complete ride booking application for Sri Lanka using OpenAI GPT-4o, AWS Strands, and interactive maps. Book rides from anywhere to anywhere with real-time vehicle availability, route calculation, and cost estimation.
+A complete ride booking application for Sri Lanka using OpenAI GPT-4o and AWS Strands. Book rides from anywhere to anywhere with real-time vehicle availability, route calculation, and cost estimation by simply specifying your pickup and dropoff locations.
 
 ---
 
 ## Features
 
-- **Interactive Map Integration**: Visual location selection with OpenStreetMap
 - **AI-Powered Agent**: Natural language conversation using GPT-4o
-- **Smart Location Detection**: Automatic geocoding and route calculation
+- **Smart Location Detection**: Automatic geocoding and route calculation from text input
 - **Real-Time Vehicle Search**: 50 vehicles with live availability
 - **Dynamic Pricing**: Distance and time-based cost calculation
 - **Calendar Integration**: Auto-booking with Google Calendar
@@ -53,9 +52,9 @@ User: "I need to go from Galle to Kandy"
 ```
 
 **What happens:**
-1. System geocodes "Galle" → Shows green marker on map
-2. System geocodes "Kandy" → Shows red marker on map
-3. Calculates route → Shows blue line with distance/duration
+1. System geocodes "Galle" location
+2. System geocodes "Kandy" location
+3. Calculates route with distance and duration
 4. Agent searches for available vehicles
 5. Agent presents top 3 vehicle options with pricing
 
@@ -86,7 +85,7 @@ Agent confirms and:
 ## Architecture
 
 ### Tech Stack
-- **Frontend**: Streamlit + Folium (interactive maps)
+- **Frontend**: Streamlit
 - **AI Agent**: AWS Strands with OpenAI GPT-4o
 - **Database**: SQLite (vehicles, trips, dispatches)
 - **Geocoding**: Nominatim API (OpenStreetMap)
@@ -214,22 +213,6 @@ Example: 50km trip taking 60 minutes
 
 ---
 
-## Interactive Map Features
-
-### Location Selection
-- **First click**: Set pickup location (green marker)
-- **Second click**: Set dropoff location (red marker)
-- **Route display**: Blue line showing the path
-- **Info box**: Distance and duration overlay
-
-### Map Interactions
-- Zoom in/out controls
-- Pan to navigate
-- Click to set/change locations
-- Auto-center on route
-
----
-
 ## Database Schema
 
 ### Vehicles Table
@@ -294,24 +277,17 @@ model = OpenAIModel(
 
 ## UI Components
 
-### Chat Interface (Left Panel)
+### Chat Interface
 - Message history with user/agent distinction
 - Real-time streaming responses
 - Location status indicators
 - Action buttons (Confirm/Reset)
 
-### Interactive Map (Right Panel)
-- Full Sri Lanka view by default
-- Clickable location selection
-- Route visualization
-- Distance/duration display
-- Zoom and pan controls
-
 ### Status Section
 - Pickup location status
 - Dropoff location status
 - Route calculation status
-- Map synchronization
+- Distance and duration display
 
 ---
 
@@ -333,15 +309,11 @@ rm vehicles.db
 # App will auto-create on next start
 ```
 
-### Map not loading
-- Check internet connection (needs OpenStreetMap tiles)
-- Clear browser cache
-- Try different browser
-
 ### Location not geocoding
 - Check spelling of location name
 - Use more specific names (e.g., "Galle Fort" vs "Galle")
-- Try clicking on map instead
+- Provide complete address when possible
+- Use well-known landmarks or city names
 
 ### Agent not responding
 - Check `.env` file has valid `OPENAI_API_KEY`
@@ -454,6 +426,6 @@ pip install -r requirements.txt
 
 ---
 
-**Built with OpenAI GPT-4o, AWS Strands, Streamlit, and OpenStreetMap**
+**Built with OpenAI GPT-4o, AWS Strands, and Streamlit**
 
 *Last Updated: January 15, 2026*
