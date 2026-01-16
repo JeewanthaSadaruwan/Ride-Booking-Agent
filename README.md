@@ -1,22 +1,22 @@
-# 🚗 Vehicle Dispatch Agent - AI-Powered Ride Booking System
+# Vehicle Dispatch Agent - AI-Powered Ride Booking System
 
 A complete ride booking application for Sri Lanka using OpenAI GPT-4o, AWS Strands, and interactive maps. Book rides from anywhere to anywhere with real-time vehicle availability, route calculation, and cost estimation.
 
 ---
 
-## 🎯 Features
+## Features
 
-- **🗺️ Interactive Map Integration**: Visual location selection with OpenStreetMap
-- **🤖 AI-Powered Agent**: Natural language conversation using GPT-4o
-- **📍 Smart Location Detection**: Automatic geocoding and route calculation
-- **🚗 Real-Time Vehicle Search**: 50 vehicles with live availability
-- **💰 Dynamic Pricing**: Distance and time-based cost calculation
-- **📅 Calendar Integration**: Auto-booking with Google Calendar
-- **🎨 Modern UI**: Streamlit-based responsive interface
+- **Interactive Map Integration**: Visual location selection with OpenStreetMap
+- **AI-Powered Agent**: Natural language conversation using GPT-4o
+- **Smart Location Detection**: Automatic geocoding and route calculation
+- **Real-Time Vehicle Search**: 50 vehicles with live availability
+- **Dynamic Pricing**: Distance and time-based cost calculation
+- **Calendar Integration**: Auto-booking with Google Calendar
+- **Modern UI**: Streamlit-based responsive interface
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Install Dependencies
 ```bash
@@ -45,7 +45,7 @@ Open your browser at: **http://localhost:8501**
 
 ---
 
-## 💬 How to Use
+## How to Use
 
 ### Basic Ride Request
 ```
@@ -53,11 +53,11 @@ User: "I need to go from Galle to Kandy"
 ```
 
 **What happens:**
-1. ✅ System geocodes "Galle" → Shows 🟢 green marker on map
-2. ✅ System geocodes "Kandy" → Shows 🔴 red marker on map
-3. ✅ Calculates route → Shows blue line with distance/duration
-4. 🤖 Agent searches for available vehicles
-5. 📊 Agent presents top 3 vehicle options with pricing
+1. System geocodes "Galle" → Shows green marker on map
+2. System geocodes "Kandy" → Shows red marker on map
+3. Calculates route → Shows blue line with distance/duration
+4. Agent searches for available vehicles
+5. Agent presents top 3 vehicle options with pricing
 
 ### With Vehicle Preferences
 ```
@@ -83,7 +83,7 @@ Agent confirms and:
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ### Tech Stack
 - **Frontend**: Streamlit + Folium (interactive maps)
@@ -132,7 +132,7 @@ vehicle-dispatch-agent/
 
 ---
 
-## 🎯 Conversation Flow
+## Conversation Flow
 
 ### Phase 1: Location Identification
 System automatically:
@@ -157,7 +157,7 @@ Agent performs:
 
 ---
 
-## 🛠️ Available Tools (23 Total)
+## Available Tools (23 Total)
 
 ### Location & Routing
 - `geocode_location` - Convert address to GPS coordinates
@@ -197,7 +197,7 @@ Agent performs:
 
 ---
 
-## 💰 Pricing Formula
+## Pricing Formula
 
 ```
 Total Cost = Base Fare + Distance Cost + Time Cost
@@ -214,11 +214,11 @@ Example: 50km trip taking 60 minutes
 
 ---
 
-## 🗺️ Interactive Map Features
+## Interactive Map Features
 
 ### Location Selection
-- **First click**: Set pickup location (🟢 green marker)
-- **Second click**: Set dropoff location (🔴 red marker)
+- **First click**: Set pickup location (green marker)
+- **Second click**: Set dropoff location (red marker)
 - **Route display**: Blue line showing the path
 - **Info box**: Distance and duration overlay
 
@@ -230,7 +230,7 @@ Example: 50km trip taking 60 minutes
 
 ---
 
-## 📊 Database Schema
+## Database Schema
 
 ### Vehicles Table
 ```sql
@@ -272,7 +272,7 @@ Example: 50km trip taking 60 minutes
 
 ---
 
-## 🔧 Configuration
+## Configuration
 
 ### Settings (`config/settings.py`)
 ```python
@@ -292,7 +292,7 @@ model = OpenAIModel(
 
 ---
 
-## 🎨 UI Components
+## UI Components
 
 ### Chat Interface (Left Panel)
 - Message history with user/agent distinction
@@ -308,14 +308,14 @@ model = OpenAIModel(
 - Zoom and pan controls
 
 ### Status Section
-- ✅ Pickup location status
-- ✅ Dropoff location status
-- ✅ Route calculation status
-- 🗺️ Map synchronization
+- Pickup location status
+- Dropoff location status
+- Route calculation status
+- Map synchronization
 
 ---
 
-## 🚨 Troubleshooting
+## Troubleshooting
 
 ### App won't start
 ```bash
@@ -350,7 +350,7 @@ rm vehicles.db
 
 ---
 
-## 📝 Example Conversations
+## Example Conversations
 
 ### Simple Booking
 ```
@@ -383,7 +383,7 @@ Agent: Excellent! Mercedes E-Class is on the way...
 
 ---
 
-## 🔐 Security & Privacy
+## Security & Privacy
 
 - API keys stored in `.env` (not committed to git)
 - User location data not stored permanently
@@ -392,7 +392,7 @@ Agent: Excellent! Mercedes E-Class is on the way...
 
 ---
 
-## 🌟 Features in Development
+## Features in Development
 
 - [ ] Real-time GPS tracking
 - [ ] Payment integration (Stripe/PayPal)
@@ -404,7 +404,7 @@ Agent: Excellent! Mercedes E-Class is on the way...
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch
@@ -414,13 +414,13 @@ Agent: Excellent! Mercedes E-Class is on the way...
 
 ---
 
-## 📄 License
+## License
 
 This project is for educational and demonstration purposes.
 
 ---
 
-## 📞 Support
+## Support
 
 For issues:
 1. Check `logs/dispatch_agent.log`
@@ -430,7 +430,7 @@ For issues:
 
 ---
 
-## 🎉 Quick Commands Reference
+## Quick Commands Reference
 
 ```bash
 # Start app
@@ -454,6 +454,6 @@ pip install -r requirements.txt
 
 ---
 
-**Built with ❤️ using OpenAI GPT-4o, AWS Strands, Streamlit, and OpenStreetMap**
+**Built with OpenAI GPT-4o, AWS Strands, Streamlit, and OpenStreetMap**
 
 *Last Updated: January 15, 2026*
