@@ -75,3 +75,7 @@ logs/
 # Temporary files
 tmp/
 temp/
+
+# OAuth credentials
+credentials.json
+token.json
