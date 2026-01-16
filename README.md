@@ -1,4 +1,4 @@
-# Vehicle Dispatch Agent - AI-Powered Ride Booking System
+# Ride Booking Agent - AI-Powered Ride Booking System
 
 A complete ride booking application for Sri Lanka using OpenAI GPT-4o and AWS Strands. Book rides from anywhere to anywhere with real-time vehicle availability, route calculation, and cost estimation by simply specifying your pickup and dropoff locations.
 
@@ -29,7 +29,23 @@ Create a `.env` file:
 OPENAI_API_KEY=your_openai_api_key_here
 ```
 
-### 3. Run the Application
+### 3. Set Up Google Calendar (Optional)
+For calendar integration features:
+
+1. **Enable Google Calendar API**:
+   - Go to [Google Cloud Console](https://console.cloud.google.com/)
+   - Create a new project or select existing one
+   - Enable Google Calendar API
+   - Create OAuth 2.0 Client ID (Desktop App)
+   - Download credentials and save as `credentials.json`
+
+2. **Authenticate**:
+   ```bash
+   python google_calendar_auth.py
+   ```
+   This will open your browser to authorize access and save `token.json`
+
+### 4. Run the Application
 ```bash
 python3 -m streamlit run app.py --server.port 8501
 ```
@@ -39,7 +55,7 @@ Or use the startup script:
 ./run_app.sh
 ```
 
-### 4. Access the App
+### 5. Access the App
 Open your browser at: **http://localhost:8501**
 
 ---
@@ -94,39 +110,56 @@ Agent confirms and:
 
 ### Project Structure
 ```
-vehicle-dispatch-agent/
+ride-booking-agent/
 ├── app.py                      # Main Streamlit application
 ├── requirements.txt            # Python dependencies
 ├── .env                        # Environment variables
 ├── vehicles.db                 # SQLite database
 ├── run_app.sh                  # Startup script
+├── google_calendar_auth.py     # Google Calendar authentication
+├── credentials.json            # Google OAuth credentials (not in git)
+├── token.json                  # Google OAuth token (not in git)
 │
 ├── agents/
-│   └── dispatch_agent.py       # AI agent configuration
+│   └── booking_agent.py        # AI agent configuration
 │
-├── tools/                      # 23 specialized tools
+├── tools/                      # 13 specialized tools
 │   ├── geocode_location.py     # Location geocoding
 │   ├── calculate_route.py      # Route calculation
 │   ├── list_available_vehicles.py
+│   ├── filter_vehicles_by_constraints.py
+│   ├── recommend_best_vehicle.py
 │   ├── estimate_trip_cost.py
-│   ├── dispatch_vehicle.py
+│   ├── book_vehicle.py         # Book and dispatch vehicle
+│   ├── get_my_bookings.py      # User booking history
+│   ├── cancel_booking.py       # Cancel bookings
 │   ├── create_calendar_booking.py
-│   └── ... (17 more)
+│   ├── list_calendar_bookings.py
+│   └── get_current_datetime.py
+│
+├── auth/
+│   └── auth.py                 # Authentication logic
+│
+├── ui/
+│   └── auth_ui.py              # Authentication UI
 │
 ├── config/
 │   └── settings.py             # Configuration
+│
+├── models/
+│   └── openai_model.py         # OpenAI model wrapper
 │
 ├── db/
 │   ├── init_db.py              # Database initialization
 │   └── database.py             # Database operations
 │
 ├── csv/                        # Sample data
-│   ├── vehicles.csv            # 50 vehicles
-│   ├── trips.csv               # 100 trips
-│   └── dispatches.csv          # 100 dispatches
+│   └── vehicles.csv            # 50 vehicles
 │
 └── logs/
-    └── dispatch_agent.log      # Application logs
+    └── booking_agent.log       # Application logs
+└── logs/
+    └── booking_agent.log       # Application logs
 ```
 
 ---
@@ -136,9 +169,9 @@ vehicle-dispatch-agent/
 ### Phase 1: Location Identification
 System automatically:
 1. Parses user message for locations
-2. Geocodes pickup location → Shows on map
-3. Geocodes dropoff location → Shows on map
-4. Calculates and displays route
+2. Geocodes pickup location
+3. Geocodes dropoff location
+4. Calculates route with distance and duration
 
 ### Phase 2: Vehicle Search
 Agent performs:
@@ -156,43 +189,32 @@ Agent performs:
 
 ---
 
-## Available Tools (23 Total)
+## Available Tools (13 Total)
 
 ### Location & Routing
 - `geocode_location` - Convert address to GPS coordinates
-- `calculate_route` - Calculate distance and duration
-- `get_user_location` - Get user's current location
-- `get_precise_user_location` - Reverse geocoding
+- `calculate_route` - Calculate distance and duration between locations
 
 ### Vehicle Management
 - `list_available_vehicles` - Search available vehicles
-- `filter_vehicles_by_constraints` - Filter by preferences
-- `evaluate_vehicle_suitability` - Score vehicles
-- `rank_vehicle_options` - Rank by multiple criteria
-- `recommend_best_vehicle` - Get top recommendations
+- `filter_vehicles_by_constraints` - Filter vehicles by preferences (type, capacity, features)
+- `recommend_best_vehicle` - Get top vehicle recommendations based on trip requirements
 
 ### Cost & Time Estimation
-- `estimate_trip_cost` - Calculate ride cost
-- `estimate_trip_duration` - Estimate travel time
-- `estimate_pickup_time` - ETA for vehicle arrival
+- `estimate_trip_cost` - Calculate ride cost based on distance and duration
 
 ### Booking & Dispatch
-- `dispatch_vehicle` - Book and dispatch vehicle
-- `track_vehicle_status` - Real-time tracking
-- `handle_dispatch_failure` - Error handling
-- `capture_trip_request` - Log trip details
+- `book_vehicle` - Book and dispatch vehicle for a trip
+- `get_my_bookings` - Retrieve user's booking history
+- `cancel_booking` - Cancel a specific booking by ID
+- `cancel_bookings_by_date` - Cancel all bookings for a specific date
 
 ### Calendar Integration
-- `create_calendar_booking` - Auto-create event
-- `check_calendar_availability` - Check conflicts
+- `create_calendar_booking` - Auto-create Google Calendar event for booking
+- `list_calendar_bookings` - List upcoming calendar bookings
 
 ### Time Management
-- `get_current_datetime` - Get current time
-- `calculate_future_datetime` - Handle relative times
-
-### Preferences & Feedback
-- `apply_user_preferences` - Apply filters
-- `collect_trip_feedback` - Post-trip feedback
+- `get_current_datetime` - Get current date and time
 
 ---
 
@@ -259,10 +281,10 @@ Example: 50km trip taking 60 minutes
 
 ### Settings (`config/settings.py`)
 ```python
-SESSION_ID = "vehicle-dispatch-agent-session"
+SESSION_ID = "ride-booking-agent-session"
 ```
 
-### Agent Configuration (`agents/dispatch_agent.py`)
+### Agent Configuration (`agents/booking_agent.py`)
 ```python
 model = OpenAIModel(
     model_id="gpt-4o",
@@ -318,7 +340,7 @@ rm vehicles.db
 ### Agent not responding
 - Check `.env` file has valid `OPENAI_API_KEY`
 - Check terminal for error messages
-- Look at `logs/dispatch_agent.log`
+- Look at `logs/booking_agent.log`
 
 ---
 
@@ -364,7 +386,7 @@ Agent: Excellent! Mercedes E-Class is on the way...
 
 ---
 
-## Features in Development
+<!-- ## Features in Development
 
 - [ ] Real-time GPS tracking
 - [ ] Payment integration (Stripe/PayPal)
@@ -374,9 +396,9 @@ Agent: Excellent! Mercedes E-Class is on the way...
 - [ ] Advanced analytics dashboard
 - [ ] Driver ratings and reviews
 
----
+--- -->
 
-## Contributing
+<!-- ## Contributing
 
 1. Fork the repository
 2. Create a feature branch
@@ -384,18 +406,18 @@ Agent: Excellent! Mercedes E-Class is on the way...
 4. Test thoroughly
 5. Submit a pull request
 
----
+--- -->
 
-## License
+<!-- ## License
 
 This project is for educational and demonstration purposes.
 
----
+--- -->
 
 ## Support
 
 For issues:
-1. Check `logs/dispatch_agent.log`
+1. Check `logs/booking_agent.log`
 2. Review terminal error messages
 3. Verify all dependencies are installed
 4. Ensure `.env` file is properly configured
@@ -412,7 +434,7 @@ python3 -m streamlit run app.py --server.port 8501
 pkill -9 -f streamlit
 
 # View logs
-tail -f logs/dispatch_agent.log
+tail -f logs/booking_agent.log
 
 # Reset database
 rm vehicles.db
